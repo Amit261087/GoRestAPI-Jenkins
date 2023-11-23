@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "8cd5ac83-50b5-4756-9d11-4df20cb142e0",
+		"name": "GoRestAPI Jenkins",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9506154d-2281-49a9-9f99-c4563bfc8e0d",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"userid_env\", jsonData.id)\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check Response Values\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"name_env\"));\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "14be4172-708f-48df-bf39-32a0767c293b",
+						"exec": [
+							"var random = Math.random().toString(36).substring(2);\r",
+							"var useremail = \"Amit\"+random+\"@gmail.com\"\r",
+							"var username = \"Amit\"+random\r",
+							"pm.collectionVariables.set(\"email_env\", useremail)\r",
+							"pm.collectionVariables.set(\"name_env\", username)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "32f6e3d3-e52d-40f0-b72c-7e24ebbdda7e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name_env}}\",\r\n    \"email\": \"{{email_env}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://gorest.co.in/public/v2/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "655d558e-18dd-4236-bd5f-5216c3b42487",
+						"exec": [
+							"//var jsonData = JSON.parse(responseBody)\r",
+							"pm.test(\"Validate Fields\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"userid_env\"));\r",
+							"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"name_env\"));\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email_env\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5775adbf-f950-4547-806c-f83e0121b9c5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "4d27d010-7d44-46bb-9f4f-321bec49b932",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"url": "https://gorest.co.in/public/v2/users/{{userid_env}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "22c83152-35e0-4177-8c2a-d2e8133733ef",
+						"exec": [
+							"var random = Math.random().toString(36).substring(2);\r",
+							"var useremail = \"Amit\"+random+\"@gmail.com\"\r",
+							"var username = \"Amit\"+random\r",
+							"pm.collectionVariables.set(\"updated_name\", username)\r",
+							"pm.collectionVariables.set(\"updated_email\", useremail)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8144403d-5d8a-420b-892b-3e180cac1ba9",
+						"exec": [
+							"pm.test(\"Validate Response Value\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"updated_name\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"userid_env\"));\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"updated_email\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate New Values with Old\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.email).not.eql(pm.collectionVariables.get(\"email_env\"));\r",
+							"    pm.expect(jsonData.name).not.eql(pm.collectionVariables.get(\"name_env\"))\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "31ab9c73-6936-4486-a1ec-64d96aba6a7c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{updated_name}}\",\r\n    \"email\": \"{{updated_email}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://gorest.co.in/public/v2/users/{{userid_env}}"
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cc81862a-29a5-4bde-9de8-efd8dd8caa4c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "e9185687-0241-4159-9c43-2209830386f6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9"
+					}
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"Inactive\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://gorest.co.in/public/v2/users/{{userid_env}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"id": "04ffb3be-e1af-4e8f-8928-f526b139e0a7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "https://gorest.co.in/public/v2/users/{{userid_env}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6dfa6695-20f8-456e-b7c7-35dd7f4a5e9c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "4f4d94c4-3408-4a39-b7c4-c8ed68e562a8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://gorest.co.in/public/v2/users"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "37b8d4f2-7293-499e-a269-ecb4114157d8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "81dfc45a-6392-4c2a-8b38-f7e67a697de9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ID",
+			"value": "{{ID}}"
+		},
+		{
+			"key": "email_env",
+			"value": ""
+		},
+		{
+			"key": "name_env",
+			"value": ""
+		},
+		{
+			"key": "userid_env",
+			"value": ""
+		},
+		{
+			"key": "updated_name",
+			"value": ""
+		},
+		{
+			"key": "updated_email",
+			"value": ""
+		}
+	]
+}
