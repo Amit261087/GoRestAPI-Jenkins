@@ -365,6 +365,10 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -420,32 +424,32 @@
 	],
 	"variable": [
 		{
-			"id": "02d08dca-cc83-4b30-a3fe-feb5ccc3febe",
+			"id": "35966e3e-30a7-4c5a-96d8-6d7be4c3eb81",
 			"key": "ID",
 			"value": "{{ID}}"
 		},
 		{
-			"id": "f67f90ea-eca6-4bf7-b0d6-c4a25dd8807c",
+			"id": "d4bae3a4-3ac6-4789-842c-73414f89be00",
 			"key": "email_env",
 			"value": ""
 		},
 		{
-			"id": "b9c9b6cb-762d-4333-8394-4c74102ddf8a",
+			"id": "53274774-4b04-4ea1-aed0-1b901f68629d",
 			"key": "name_env",
 			"value": ""
 		},
 		{
-			"id": "a033bf35-1be4-4e03-8111-cddba6653f39",
+			"id": "3313d039-fe25-45ba-8749-efd2a92ae956",
 			"key": "userid_env",
 			"value": ""
 		},
 		{
-			"id": "94bedfdb-6a04-4017-8f2a-fc2ffe488b42",
+			"id": "8e668ee6-46b2-4f7a-982c-d3219d369ee9",
 			"key": "updated_name",
 			"value": ""
 		},
 		{
-			"id": "75766277-a985-4281-a2c4-f52ae6c8c715",
+			"id": "8a1b53ad-c59e-4d56-9c28-a43fd08f9df6",
 			"key": "updated_email",
 			"value": ""
 		}
