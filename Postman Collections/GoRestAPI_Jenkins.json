@@ -204,6 +204,22 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c211a8c5-5c4b-43e2-943f-f938331a7923",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"id": "e9185687-0241-4159-9c43-2209830386f6",
@@ -321,32 +337,32 @@
 	],
 	"variable": [
 		{
-			"id": "87036762-2191-4fbe-9008-f43a457da377",
+			"id": "023a1221-6772-478d-ae78-549b088806f1",
 			"key": "ID",
 			"value": "{{ID}}"
 		},
 		{
-			"id": "3fd3c1f5-0adb-4312-8201-2decf61fe3c6",
+			"id": "1d1bf423-19f9-4b53-ab1a-918753ebe3ca",
 			"key": "email_env",
 			"value": ""
 		},
 		{
-			"id": "62fd82b9-95bc-42a4-96fb-f552dac6d52c",
+			"id": "8c76168a-abd2-420b-bc16-d122a8d4c755",
 			"key": "name_env",
 			"value": ""
 		},
 		{
-			"id": "8fb40df8-dc3e-472a-bee0-1849ff5cdbb6",
+			"id": "cddb9046-5791-4868-b24f-5ccb3c34b52b",
 			"key": "userid_env",
 			"value": ""
 		},
 		{
-			"id": "8ece215c-2e93-472f-8073-83b29934d2b2",
+			"id": "09b15be7-07a2-4377-b037-3917dbfbfd5b",
 			"key": "updated_name",
 			"value": ""
 		},
 		{
-			"id": "0d3af347-f512-4929-abe1-169c3bfbc170",
+			"id": "6661ca3a-d867-4a74-80cd-c13ff9b79f8b",
 			"key": "updated_email",
 			"value": ""
 		}
