@@ -1,0 +1,453 @@
+{
+	"info": {
+		"_postman_id": "0a2642aa-16b8-4a6b-8d34-4b3425f93ddb",
+		"name": "GoRestAPI Jenkins",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "27550796-0a2642aa-16b8-4a6b-8d34-4b3425f93ddb"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ebe1df60-2213-489a-85ea-4fb3fd01c222",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"userid_env\", jsonData.id)\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check Response Values\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"name_env\"));\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "640c2cef-3186-402d-9505-c4049bad1e70",
+						"exec": [
+							"var random = Math.random().toString(36).substring(2);\r",
+							"var useremail = \"Amit\"+random+\"@gmail.com\"\r",
+							"var username = \"Amit\"+random\r",
+							"pm.collectionVariables.set(\"email_env\", useremail)\r",
+							"pm.collectionVariables.set(\"name_env\", username)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "75bd61dd-a3ff-4170-9c70-07073315bc0d",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name_env}}\",\r\n    \"email\": \"{{email_env}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3bdfa7dc-b560-409c-b779-2e1c1e635d34",
+						"exec": [
+							"//var jsonData = JSON.parse(responseBody)\r",
+							"pm.test(\"Validate Fields\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"userid_env\"));\r",
+							"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"name_env\"));\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email_env\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1ea4c263-650c-480a-9152-c72893a72cfe",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "db1ac9b3-5245-40bc-981a-2076eb68ac71",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users/{{userid_env}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d35186e2-2368-4ff7-835d-dfd8d8884384",
+						"exec": [
+							"var random = Math.random().toString(36).substring(2);\r",
+							"var useremail = \"Amit\"+random+\"@gmail.com\"\r",
+							"var username = \"Amit\"+random\r",
+							"pm.collectionVariables.set(\"updated_name\", username)\r",
+							"pm.collectionVariables.set(\"updated_email\", useremail)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9eb96b48-ce32-4674-87c2-516c457ee52d",
+						"exec": [
+							"pm.test(\"Validate Response Value\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"updated_name\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"userid_env\"));\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"updated_email\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate New Values with Old\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.email).not.eql(pm.collectionVariables.get(\"email_env\"));\r",
+							"    pm.expect(jsonData.name).not.eql(pm.collectionVariables.get(\"name_env\"))\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "8f44310c-8fcb-4798-a28d-a49cf2bc5faa",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{updated_name}}\",\r\n    \"email\": \"{{updated_email}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users/{{userid_env}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b85a9afa-87fe-411b-a3fd-f88493a42750",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "f5ccedd1-4b39-44a5-b5d0-c55f54fdf283",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"Inactive\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users/{{userid_env}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "363755fd-ce2e-4242-8619-d45064c10f29",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "531ef02d-4a0b-4c08-8b4f-9891af55ef88",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a8b9d3ea9340119a8f357af1091243a4ff693bb0ce6d348e995711d3f5f1c9c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users/{{userid_env}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "873a344d-6dbb-4544-a677-0966d900527d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "052ab0ba-98c3-4723-be32-68f31d99579c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0cfd20ee-5349-4b23-b524-d8293a1e9490",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c32a05fc-6f3b-41dc-9dca-5cef479dfb04",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "02d08dca-cc83-4b30-a3fe-feb5ccc3febe",
+			"key": "ID",
+			"value": "{{ID}}"
+		},
+		{
+			"id": "f67f90ea-eca6-4bf7-b0d6-c4a25dd8807c",
+			"key": "email_env",
+			"value": ""
+		},
+		{
+			"id": "b9c9b6cb-762d-4333-8394-4c74102ddf8a",
+			"key": "name_env",
+			"value": ""
+		},
+		{
+			"id": "a033bf35-1be4-4e03-8111-cddba6653f39",
+			"key": "userid_env",
+			"value": ""
+		},
+		{
+			"id": "94bedfdb-6a04-4017-8f2a-fc2ffe488b42",
+			"key": "updated_name",
+			"value": ""
+		},
+		{
+			"id": "75766277-a985-4281-a2c4-f52ae6c8c715",
+			"key": "updated_email",
+			"value": ""
+		}
+	]
+}
