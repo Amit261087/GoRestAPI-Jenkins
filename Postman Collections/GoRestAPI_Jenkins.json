@@ -234,6 +234,20 @@
 		},
 		{
 			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f712e93e-e810-4b00-aba3-018faa459de2",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"id": "04ffb3be-e1af-4e8f-8928-f526b139e0a7",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -303,26 +317,32 @@
 	],
 	"variable": [
 		{
+			"id": "f2f3c319-4a01-4a4b-a696-1c94371f7282",
 			"key": "ID",
 			"value": "{{ID}}"
 		},
 		{
+			"id": "de025dc9-b185-44ee-9817-56e305bef2f7",
 			"key": "email_env",
 			"value": ""
 		},
 		{
+			"id": "cdfe84e0-1d99-4902-9a7e-02cd8bf2a0a7",
 			"key": "name_env",
 			"value": ""
 		},
 		{
+			"id": "2a9863fe-9ca5-42d5-89d6-ef483d715a54",
 			"key": "userid_env",
 			"value": ""
 		},
 		{
+			"id": "cf60b07d-9331-42b9-90cb-26995a574a61",
 			"key": "updated_name",
 			"value": ""
 		},
 		{
+			"id": "607a5319-207c-4758-9d69-bd9b41b68646",
 			"key": "updated_email",
 			"value": ""
 		}
